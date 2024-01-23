@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@types/node": "^20.11.5",
+    "node": "^21.6.0"
+  },
+  "name": "node-app-thing",
+  "scripts":
+  {
+    "start": "node ./app.js"
+  } 
+}
