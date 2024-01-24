@@ -23,10 +23,15 @@
 
 
 //logger.log(`totalmem : ${os.totalmem()}`);
+
 const app = require('express')();
 
 app.get('/', (req, res) => {
-    res.json({message:"docker test"})
+    res.json({message: "docker test"})
+});
 
-})
+const PORT = 8080; // You can choose any port number
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
