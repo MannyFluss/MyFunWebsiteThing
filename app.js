@@ -23,17 +23,10 @@
 
 
 //logger.log(`totalmem : ${os.totalmem()}`);
+const app = require('express')();
 
-const http = require('http');
+app.get('/', (req, res) => {
+    res.json({message:"docker test"})
 
-const server = http.createServer((req, res) =>{
-    if(req.url === '/'){
-        res.write('FUCK');
-        res.end();
-    }
-});
-
-server.listen(3000);
-
-console.log('listening on port 3000');
+})
 
