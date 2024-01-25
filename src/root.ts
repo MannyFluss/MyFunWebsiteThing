@@ -1,5 +1,8 @@
 const root = {
-    message: () => 'Hello, aaaaaa!',
+    message: (message:string) => {
+      return message
+    },
+
   };
   
   module.exports = root;
