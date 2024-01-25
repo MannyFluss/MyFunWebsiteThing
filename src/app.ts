@@ -7,7 +7,7 @@ const rootFile = require('./root');
 
 app.use('/graphql', graphqlHTTP({
     schema: schemaFile,
-    rootValue: root,
+    root: rootFile,
     graphiql: true, // Enables the GraphiQL tool
   }));
 

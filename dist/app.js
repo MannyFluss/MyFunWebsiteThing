@@ -1,11 +1,11 @@
 "use strict";
 const { graphqlHTTP } = require('express-graphql');
 const app = require('express')();
-const schem = require('./schema');
-const rot = require('./root');
+const schemaFile = require('./schema');
+const rootFile = require('./root');
 app.use('/graphql', graphqlHTTP({
-    schema: schem,
-    rootValue: rot,
+    schema: schemaFile,
+    root: rootFile,
     graphiql: true, // Enables the GraphiQL tool
 }));
 app.get('/', (req, res) => {

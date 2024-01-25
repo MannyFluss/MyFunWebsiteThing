@@ -1,5 +1,10 @@
 "use strict";
 const root = {
-    message: () => 'Hello, aaaaaa!',
+    Query: {
+        message: (_parent, args) => {
+            console.log(args);
+            return args._message;
+        },
+    },
 };
 module.exports = root;
