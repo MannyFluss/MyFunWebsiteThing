@@ -1,37 +1,26 @@
-// const Logger = require('./myCoolModule');
-// const path = require('path');
-// const os = require('os');
-
-// const EventEmitter = require('events');
-
-// const log = new Logger();
-
-
-// log.on('messageLogged', (arg) =>{
-//     console.log('Listener called',arg);
-// })
-// log.on('logging', (arg) =>{
-//     console.log('Listener called',arg);
-// })
-
-// log.log('message');
-
-
-
-
-//no window just global
-
-
-//logger.log(`totalmem : ${os.totalmem()}`);
-
+const { graphqlHTTP } = require('express-graphql');
 const app = require('express')();
+const schem = require('./schema');
+const rot = require('./root');
 
-app.get('/', (req, res) => {
+
+
+app.use('/graphql', graphqlHTTP({
+    schema: schem,
+    rootValue: rot,
+    graphiql: true, // Enables the GraphiQL tool
+  }));
+
+
+app.get('/', (req:any, res:any) => {
     res.json({message: "docker test"})
 });
 
 const PORT = 8080; // You can choose any port number
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
