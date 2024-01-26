@@ -11,5 +11,8 @@
   "name": "node-app-thing",
   "scripts": {
     "start": "node ./dist/app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }

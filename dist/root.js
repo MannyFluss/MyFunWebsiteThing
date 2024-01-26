@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const root = {
     Query: {
         message: (_parent, args) => {
@@ -7,4 +8,5 @@ const root = {
         },
     },
 };
+console.log("sss");
 module.exports = root;
