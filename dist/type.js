@@ -1,4 +1,3 @@
-"use strict";
 //ts will implicitly try and convert stuff
 let id = 5;
 let s = 5;

@@ -1,4 +1,3 @@
-"use strict";
 const root = {
     Query: {
         message: (_parent, args) => {
