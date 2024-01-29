@@ -3,6 +3,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 //server setup
 import { typeDefs } from "./schema.js";
 import db from "./_db.js";
+import { createClient } from 'redis';
 const resolvers = {
     Query: {
         games() {
@@ -45,6 +46,12 @@ const resolvers = {
         }
     }
 };
+//   client.set('test_key', 'Hello, Redis!', function(err, reply) {
+//     console.log(reply); // Prints 'OK' if successful
+//   });
+//   client.get('test_key', function(err, reply) {
+//     console.log(reply); // Prints 'Hello, Redis!'
+//   });
 /**
  *
  *
@@ -73,9 +80,21 @@ const server = new ApolloServer({
     typeDefs, //map to structure map, dont handle logic
     resolvers,
 });
-const myPort = 4000;
+const myPort = 8080;
 //start the server
 const { url } = await startStandaloneServer(server, {
     listen: { port: myPort },
 });
+console.log('Connecting...');
 console.log(`Server started at port ${myPort}`);
+async function connectToRedis() {
+    const client = createClient({
+        url: 'redis://redis:6379'
+    });
+    console.log('Connecting...');
+    client.on('error', (err) => console.log('Redis Client Error', err));
+    await client.connect();
+    console.log('Connected to Redis');
+    // Rest of your Redis code...
+}
+await connectToRedis();

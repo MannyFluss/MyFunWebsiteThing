@@ -7,6 +7,10 @@ import { typeDefs } from "./schema.js";
 import db from "./_db.js";
 import { debug } from "console";
 
+import { createClient, RedisClientType } from 'redis';
+
+import { setSomethingInRedis, getSomethingFromRedis } from "./redisModule.js";
+
 
 
 const resolvers = {
@@ -24,6 +28,7 @@ const resolvers = {
             return db.reviews.find((review : any) => review.id === Number(args.id))
         },
         addition(_:any, args : any){
+            getSomethingFromRedis()
             return Number(args.firstNum + args.secondNum)
             
         }
@@ -51,10 +56,53 @@ const resolvers = {
             })
             return db.games.find((game : any) => Number(game.id) === Number(args.id))
         }
-
-
     }
 }
+
+
+  
+
+
+
+
+const server = new ApolloServer({
+    //typeDefs --definitions of types of data
+    // all of these together are the schema
+    //ResolverProperties
+    typeDefs, //map to structure map, dont handle logic
+    resolvers,
+
+})
+
+const myPort = 8080;
+
+//start the server
+const { url } = await startStandaloneServer(server, {
+    listen: { port: myPort },
+
+})
+console.log(`Server started at port ${myPort}`);
+
+console.log('attempting to connect with redis...');
+
+setSomethingInRedis()
+
+
+
+// const client: RedisClientType = createClient({
+//     url: 'redis://localhost:6379'
+//   }
+
+
+
+  //   client.set('test_key', 'Hello, Redis!', function(err, reply) {
+//     console.log(reply); // Prints 'OK' if successful
+//   });
+  
+//   client.get('test_key', function(err, reply) {
+//     console.log(reply); // Prints 'Hello, Redis!'
+//   });
+
 /**
  * 
  * 
@@ -76,27 +124,3 @@ data thing
  * 
  * 
  */
-
-
-
-const server = new ApolloServer({
-    //typeDefs --definitions of types of data
-    // all of these together are the schema
-    //ResolverProperties
-    typeDefs, //map to structure map, dont handle logic
-    resolvers,
-
-
-
-
-})
-
-const myPort = 4000;
-
-//start the server
-const { url } = await startStandaloneServer(server, {
-    listen: { port: myPort },
-
-})
-
-console.log(`Server started at port ${myPort}`);
