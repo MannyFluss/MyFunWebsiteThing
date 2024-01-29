@@ -11,6 +11,11 @@ import { createClient, RedisClientType } from 'redis';
 
 import { setSomethingInRedis, getSomethingFromRedis } from "./redisModule.js";
 
+import Bull from "bull";
+import dotenv from "dotenv";
+
+
+
 
 
 const resolvers = {
@@ -81,20 +86,51 @@ const { url } = await startStandaloneServer(server, {
     listen: { port: myPort },
 
 })
+
+
 console.log(`Server started at port ${myPort}`);
 
 console.log('attempting to connect with redis...');
 
-setSomethingInRedis()
+dotenv.config();
 
 
+const redisOptions : Bull.QueueOptions = {
+    redis: {
+        host: 'redis',
+        port: 6379
+        // If you have Redis password:
+        // password: 'your_redis_password'
+    }
+}   
+
+const taskQueue = new Bull("tasks", redisOptions)
+
+taskQueue.process((payload, finish) => {
+    console.log("preparing task...")
+    console.log(payload.data)
+    setTimeout(() => {
+        console.log("task complete...");
+        finish();
+    }, 4000)
+
+
+})
+
+taskQueue.add({
+    target: "conner boxell",
+    type_of_demise : "missile strike",
+    possible_locations : ["his house","emmas house","missfire at quinns appartment"]
+})
+taskQueue.add({
+    target: "nathan daignault",
+    type_of_demise : "white phosphorus bomb",
+    possible_locations : ["middle school (dont ask)","his current house in san juan","missfire langford lane (old people will die)"]
+})
 
 // const client: RedisClientType = createClient({
 //     url: 'redis://localhost:6379'
 //   }
-
-
-
   //   client.set('test_key', 'Hello, Redis!', function(err, reply) {
 //     console.log(reply); // Prints 'OK' if successful
 //   });
@@ -104,13 +140,6 @@ setSomethingInRedis()
 //   });
 
 /**
- * 
- * 
- *         
- * 
- * 
- * 
- * 
  * sending query
  * query QueryReview($firstNum: Int!, $secondNum: Int!) {
   addition(firstNum: $firstNum, secondNum: $secondNum) 

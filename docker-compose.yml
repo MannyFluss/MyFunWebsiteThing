@@ -3,6 +3,9 @@ version : '3'
 services:
   my-website:
     build: .
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
       - "8080:8080"
     depends_on:
