@@ -34,10 +34,8 @@ const resolvers = {
         },
         addition(_:any, args : any){
             getSomethingFromRedis()
-            return Number(args.firstNum + args.secondNum)
-            
+            return Number(args.firstNum + args.secondNum)   
         }
-
     },
     Mutation:{
         deleteGame(_:any, args : any){
